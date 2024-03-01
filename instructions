@@ -7,3 +7,5 @@ Front end runs on port 3000 and Back end runs on port 8000
 
 4) Flow of the application starts from the App.js file present inside the client's folder.
 
+5) There could be issues regarding react-scripts so if it exists run "npm install 
+react-scripts@latest" in the client folder and then run npm start.
