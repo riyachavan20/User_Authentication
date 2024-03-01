@@ -1,71 +1,70 @@
-import React, { useContext, useEffect, useState } from 'react'
+
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from './ContextProvider/Context';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import './styles.css'; 
 
 const Dashboard = () => {
+  const { logindata, setLoginData } = useContext(LoginContext); //using context api to get valid user(having token)
+  const [error, setError] = useState(false);  //used when we dont get tokenized user
 
-    const { logindata, setLoginData } = useContext(LoginContext);
+  const navigate = useNavigate();  //for nagivating between pages
 
-    const [data, setData] = useState(false);
+  const DashboardValid = async () => {
+    let token = localStorage.getItem("usersdatatoken");
 
+    const res = await fetch("/validuser", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    });
 
-    const history = useNavigate();
+    const data = await res.json();
 
-    const DashboardValid = async () => {
-        let token = localStorage.getItem("usersdatatoken");
-
-        const res = await fetch("/validuser", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
-            }
-        });
-
-        const data = await res.json();
-
-        if (data.status == 401 || !data) {
-            history("*");
-        } else {
-            console.log("user verify");
-            setLoginData(data)
-            history("/dash");
-        }
+    if (data.status === 401 || !data) {
+      setLoginData("");
+      setError(true);
+      navigate("*");
+      console.log(data.error);
+    } else {
+      console.log("user verify");
+      setLoginData(data);
     }
+  };
 
+  useEffect(() => {
+    setTimeout(() => {
+      DashboardValid();
+    }, 2000);  //runs after 2 seconds only after 1st render(as we provided empty array)
+  }, []);
 
-    useEffect(() => {
-        setTimeout(() => {
-            DashboardValid();
-            setData(true)
-        }, 2000)
+  return (
+    <>
+      { !error ? (
+        <div className="dashboard-container">
+          <img src="./man.png" className="profile-image" alt="" />
+          <h1>Student Email: {logindata ? logindata.ValidUserOne.email : ""}</h1>
+          <hr />
+          <div className='details_container'>
 
-    }, [])
+          <p className='details'><b>Year of study:</b> 3rd Year</p>
+          <p className='details'><b>Branch:</b> CSE</p>
+          <p className='details'><b>Result:</b> 8.98 CGPA</p>
+          <p className='details'><b>Library dues:</b> no dues</p>
+          </div>
+        </div>
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          Loading... &nbsp;
+          <CircularProgress />
+        </Box>
+      )}
+    </>
+  );
+};
 
-    return (
-        <>
-            {
-                data ? <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <img src="./man.png" style={{ width: "200px", marginTop: 20 }} alt="" />
-                    <h1>Student Email:{logindata ? logindata.ValidUserOne.email : ""}</h1>
-                    <hr />
-                    <br />
-                    <p><b>Year of study:</b> 3rd Year
-                    </p><br />
-                    <p><b>Branch:</b> CSE</p><br />
-                    <p><b>Result:</b> 8.98 CGPA</p><br />
-                    <p><b>Library dues:</b> no dues</p>
-                </div> : <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", height: "100vh" }}>
-                    Loading... &nbsp;
-                    <CircularProgress />
-                </Box>
-            }
-
-        </>
-
-    )
-}
-
-export default Dashboard
+export default Dashboard;

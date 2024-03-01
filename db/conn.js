@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
 
-// const DB = process.env.DATABASE
-const DB="mongodb+srv://riyachavan:Duet9445%23@cluster0.smczley.mongodb.net/Authusers?retryWrites=true&w=majority"
-mongoose.connect(DB,{
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-}).then(()=> console.log("DataBase Connected")).catch((errr)=>{
-    console.log(errr);
-})
+// connecting with the db
+const DB = "mongodb://127.0.0.1:27017/Authusers";
+
+
+mongoose.set('strictQuery', false); 
+
+mongoose.connect(DB, {
+}).then(() => {
+    console.log("Database Connected");
+}).catch((error) => {
+    console.error("Error connecting to the database:", error);
+});

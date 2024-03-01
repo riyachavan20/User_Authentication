@@ -8,9 +8,9 @@ import { useNavigate , NavLink } from "react-router-dom"
 
 const Header = () => {
 
-    const { logindata, setLoginData } = useContext(LoginContext);
+    const { logindata, setLoginData } = useContext(LoginContext); //using context api to get valid user(having token)
 
-    const history = useNavigate();
+    const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -42,18 +42,10 @@ const Header = () => {
             console.log("use logout");
             localStorage.removeItem("usersdatatoken");
             setLoginData(false)
-            history("/");
+            navigate("/");
         } else {
             console.log("error");
         }
-    }
-
-    const goDash = () => {
-        history("/dash")
-    }
-
-    const goError = () => {
-        history("*")
     }
 
     return (
@@ -83,7 +75,7 @@ const Header = () => {
                             logindata.ValidUserOne ? (
                                 <>
                                     <MenuItem onClick={() => {
-                                        goDash()
+                                        navigate("/dash")
                                         handleClose()
                                     }}>Profile</MenuItem>
                                     <MenuItem onClick={() => {
@@ -94,7 +86,7 @@ const Header = () => {
                             ) : (
                                 <>
                                     <MenuItem onClick={() => {
-                                        goError()
+                                        navigate("*")
                                         handleClose()
                                     }}>Profile</MenuItem>
                                 </>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect  } from 'react'
 import { NavLink } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,8 +6,8 @@ import "./mix.css"
 
 const Register = () => {
 
-    const [passShow, setPassShow] = useState(false);
-    const [cpassShow, setCPassShow] = useState(false);
+    const [passShow, setPassShow] = useState(false);//to decide whether to show the password or hide it and accordingly display show and hide options.
+    const [cpassShow, setCPassShow] = useState(false);//to decide whether to show the confirm password or hide it and accordingly display show and hide options.
 
     const [inpval, setInpval] = useState({
         fname: "",
@@ -18,21 +18,24 @@ const Register = () => {
 
 
     const setVal = (e) => {
-        // console.log(e.target.value);
-        const { name, value } = e.target;
+        const { name, value } = e.target; //destructuring name and value of target element. Here name corresponds to each field and value corresponds to the respective field's value that user enters while filling the form
+
 
         setInpval(() => {
             return {
-                ...inpval,
-                [name]: value
+                ...inpval, //spreading the input(retaining the rest of the target names and their values) of the form)
+                [name]: value //updating the changed one
             }
         })
     };
 
-    const addUserdata = async (e) => {
-        e.preventDefault();
 
-        const { fname, email, password, cpassword } = inpval;
+    
+
+    const addUserdata = async (e) => {
+        e.preventDefault(); //preventing the form from default submission so as to apply validations from front-end
+
+        const { fname, email, password, cpassword } = inpval; //fetching fname, email, password and cpassword from inpval through destructuring
 
         if (fname === "") {
             toast.warning("fname is required!", {
@@ -68,8 +71,6 @@ const Register = () => {
                 position: "top-center"
             });
         } else {
-            // console.log("user registration succesfully done");
-
 
             const data = await fetch("/register", {
                 method: "POST",
@@ -77,18 +78,17 @@ const Register = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    fname, email, password, cpassword
+                    fname, email, password, cpassword //passing this data in the request
                 })
             });
 
-            const res = await data.json();
-            // console.log(res.status);
+            const res = await data.json(); // fetching the response, storing it into res
 
             if (res.status === 201) {
                 toast.success("Registration Successfully done 😃!", {
                     position: "top-center"
                 });
-                setInpval({ ...inpval, fname: "", email: "", password: "", cpassword: "" });
+                setInpval({ ...inpval, fname:"", email:"", password:"", cpassword:"" });
             }
         }
     }
@@ -99,8 +99,6 @@ const Register = () => {
                 <div className="form_data">
                     <div className="form_heading">
                         <h1>Sign Up</h1>
-                        <p style={{ textAlign: "center" }}>We are glad that you will be using Project Cloud to manage <br />
-                            your tasks! We hope that you will get like it.</p>
                     </div>
 
                     <form>

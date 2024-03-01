@@ -1,0 +1,9 @@
+1) In the App.js file, we first check whether the user contains a token or not because the user visiting our website might be logged in. To achieve this, we call the "/validuser" API on the backend.
+
+2) This API/endpoint is handled by the routes.js file, located inside the routes folder within the server folder. To verify the token from the frontend, we fetch the token from local storage and pass it in the header as authorization. The routes.js file catches the API, and the flow is transferred to the authentication middleware, which verifies the token with the secret. If the verification is successful, the user is fetched. The flow then returns to the routes.js file at the "/validuser" endpoint and eventually to the App.js file. If the entire process is successful, we redirect the user directly to the dashboard without the need to log in again.
+
+3) However, if the user is not logged in or is a new user, this process fails as the user doesn't have a token. In this case, the user registers, and the flow moves to the userSchema present inside the server, saving the information in the collection after going through rigorous validations.
+
+4) When the user logs in, a token is generated along with a cookie and a session. Before providing dashboard details, the token is verified through the same process mentioned at the beginning. If the process succeeds, the dashboard is served.
+
+5) Finally, when the user clicks on logout, the token is verified with the secret key. Then, the cookie, session, and the token are destroyed, and the user is redirected to the login page.

@@ -1,0 +1,9 @@
+1) For running the application split 2 terminals, type cd client and cd server on 2 terminals respectively so as to go inside the 2 folders.
+
+2) Now type npm start on both of the terminals to start front end and back end port (We used cors for their data communication)
+Front end runs on port 3000 and Back end runs on port 8000
+
+3) You can check the package.json file in the client folder where i have added the proxy to connect with the back end ("proxy": "http://localhost:8000",  )
+
+4) Flow of the application starts from the App.js file present inside the client's folder.
+
