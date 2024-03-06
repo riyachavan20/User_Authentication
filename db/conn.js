@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // connecting with the db
-const DB = "mongodb://127.0.0.1:27017/Authusers";
+const DB = "mongodb://0.0.0.0:27017/Authusers";
 
 
 mongoose.set('strictQuery', false); 
