@@ -62,6 +62,7 @@ router.post("/login", async (req, res) => {
 
             if (!isMatch) {
                 res.status(422).json({ error: "invalid details" })
+                console.log("error");
             }
             else {
 
