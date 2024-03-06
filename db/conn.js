@@ -7,8 +7,13 @@ const DB = "mongodb://127.0.0.1:27017/Authusers";
 mongoose.set('strictQuery', false); 
 
 mongoose.connect(DB, {
-}).then(() => {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    poolSize: 10
+}
+).then(() => {
     console.log("Database Connected");
 }).catch((error) => {
     console.error("Error connecting to the database:", error);
 });
+  
