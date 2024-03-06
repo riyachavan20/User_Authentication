@@ -9,11 +9,12 @@ mongoose.set('strictQuery', false);
 mongoose.connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    poolSize: 10
-}
-).then(() => {
+  })
+.then(() => {
     console.log("Database Connected");
 }).catch((error) => {
     console.error("Error connecting to the database:", error);
 });
+
+
   
