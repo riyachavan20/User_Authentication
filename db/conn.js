@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-
+const DATABASE=process.env.DATABASE
 // connecting with the db
-const DB = "mongodb://0.0.0.0:27017/Authusers";
+const DB = DATABASE;
 
 
 mongoose.set('strictQuery', false); 
