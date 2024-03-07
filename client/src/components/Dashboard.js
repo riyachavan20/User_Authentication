@@ -50,11 +50,7 @@ const Dashboard = () => {
           <h1>Student Email: {logindata ? logindata.ValidUserOne.email : ""}</h1>
           <hr />
           <div className='details_container'>
-
-          <p className='details'><b>Year of study:</b> 3rd Year</p>
-          <p className='details'><b>Branch:</b> CSE</p>
-          <p className='details'><b>Result:</b> 8.98 CGPA</p>
-          <p className='details'><b>Library dues:</b> no dues</p>
+            Welcome {logindata.ValidUserOne.fname}!
           </div>
         </div>
       ) : (

@@ -8,7 +8,7 @@ require("../db/conn");
 const router = require("./routes/router");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const port = 8000;
+const port = 8001;
 const path = require("path");  
 app.use(express.json());
 app.use(cookieParser());

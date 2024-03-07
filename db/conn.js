@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
-const DATABASE=process.env.DATABASE
-// connecting with the db
-const DB = DATABASE;
 
+// Loading environment variables
+require('dotenv').config();
 
-mongoose.set('strictQuery', false); 
+// Extracting the DATABASE variable from the environment
+const DB = process.env.DATABASE;
+
+mongoose.set('strictQuery', false);
 
 mongoose.connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-.then(() => {
-    console.log("Database Connected");
-}).catch((error) => {
-    console.error("Error connecting to the database:", error);
-});
-
-
-  
+})
+    .then(() => {
+        console.log("Database Connected");
+    })
+    .catch((error) => {
+        console.error("Error connecting to the database:", error);
+    });
