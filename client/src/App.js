@@ -30,7 +30,7 @@ function App() {
     const data = await res.json();
 
     if (data.status === 401 || !data) {
-      history("*");
+      history("/");
     } else {
       history("/dash");
     }
