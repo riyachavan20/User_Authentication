@@ -41,6 +41,7 @@ const Dashboard = () => {
       DashboardValid();
     }, 2000);  //runs after 2 seconds only after 1st render(as we provided empty array)
   }, []);
+  const firstName = logindata?.ValidUserOne?.fname?.split(' ')[0] || '';
 
   return (
     <>
@@ -50,7 +51,7 @@ const Dashboard = () => {
           <h1>Student Email: {logindata ? logindata.ValidUserOne.email : ""}</h1>
           <hr />
           <div className='details_container'>
-            Welcome {logindata.ValidUserOne.fname}!
+            Welcome {firstName}!
           </div>
         </div>
       ) : (
