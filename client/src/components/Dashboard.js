@@ -12,12 +12,38 @@ const Dashboard = () => {
 
   const navigate = useNavigate();  //for nagivating between pages
 
+  // const DashboardValid = async () => {
+  //   let token = localStorage.getItem("usersdatatoken");
+
+  //   const res = await fetch("/validuser", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "Authorization": token
+  //     }
+  //   });
+
+  //   const data = await res.json();
+
+  //   if (data.status === 500 || !data || data.status !== 201) {
+  //     console.log("user unauthenticated");
+  //     // setLoginData("");
+  //     setError(true);
+  //     navigate("/dashError");
+  //     console.log(data.error);
+  //   } 
+  //   else {
+  //     console.log("user verify");
+  //     setLoginData(data);
+  //     navigate("/dash");
+  //   }
+  // };
   const DashboardValid = async () => {
     let token = localStorage.getItem("usersdatatoken");
 
     const res = await fetch("/validuser", {
       method: "GET",
-      headers: {
+      headers: { 
         "Content-Type": "application/json",
         "Authorization": token
       }
@@ -26,15 +52,14 @@ const Dashboard = () => {
     const data = await res.json();
 
     if (data.status === 401 || !data) {
-      setLoginData("");
-      setError(true);
-      navigate("*");
-      console.log(data.error);
+      // navigate("/dashError");
+      navigate("/")
     } else {
       console.log("user verify");
       setLoginData(data);
+      // navigate("/dash");
     }
-  };
+  }
 
   useEffect(() => {
     setTimeout(() => {

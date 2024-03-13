@@ -65,6 +65,9 @@ const Login = () => {
                 navigate("/dash")
                 setInpval({...inpval,email:"",password:""});
             }
+            else{
+                console.log(res.status);
+            }
         }
     }
 

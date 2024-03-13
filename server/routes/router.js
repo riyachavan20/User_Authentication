@@ -7,7 +7,7 @@ const authenticate = require("../middleware/authenticate");
 
 // user registration
 
-router.post("/register", async (req, res) => {
+const registerUser=router.post("/register", async(req, res) => {
 
     const { fname, email, password, cpassword } = req.body; //destructing the req body and fetching respective field's value
 
@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
 
     } catch (error) {
         res.status(422).json(error);
-        console.log("Something went wrong!");
+        console.log(error);
     }
 
 });
@@ -46,7 +46,7 @@ router.post("/register", async (req, res) => {
 
 // user Login
 
-router.post("/login", async (req, res) => {
+const login=router.post("/login", async (req, res) => {
 
     const { email, password } = req.body; //destructing the req body and fetching respective field's value
 
@@ -62,6 +62,7 @@ router.post("/login", async (req, res) => {
 
             if (!isMatch) {
                 res.status(422).json({ error: "invalid details" })
+                
                 console.log("error");
             }
             else {
@@ -76,7 +77,6 @@ router.post("/login", async (req, res) => {
                     _id: userValid._id,
                     email: userValid.email,
                 };
-
                 // cookiegenerate
                 res.cookie("usercookie", token, {
                     expires: new Date(Date.now() + 900000),
@@ -100,20 +100,33 @@ router.post("/login", async (req, res) => {
 
 
 
-// valid user
-router.get("/validuser", authenticate, async (req, res) => {  //control goes to middleware to verify the token with the secret key which we provided before displaying the dashboard to the user
+// // valid user
+// router.get("/validuser", authenticate, async (req, res) => {  //control goes to middleware to verify the token with the secret key which we provided before displaying the dashboard to the user
+//     try {
+//         const ValidUserOne = await table.findOne({ _id: req.userId });  //finding the user through req.userId
+//         res.status(201).json({ status: 201, ValidUserOne });
+//     } catch (error) {
+//         res.status(401).json({ status: 401, error });
+//     }
+// });
+
+const validUser=router.get("/validuser", authenticate, async (req, res) => {
     try {
-        const ValidUserOne = await table.findOne({ _id: req.userId });  //finding the user through req.userId
-        res.status(201).json({ status: 201, ValidUserOne });
+      const ValidUserOne = await table.findOne({ _id: req.userId });
+      if (!ValidUserOne) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.status(200).json({ status: 200, ValidUserOne });
     } catch (error) {
-        res.status(401).json({ status: 401, error });
+      console.error("Error validating user:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-});
+  });
 
 
 // user logout
 
-router.get("/logout", authenticate, async (req, res) => { //control goes to middleware to verify the token with the secret key which we provided before logging out the user
+const logout=router.get("/logout", authenticate, async (req, res) => { //control goes to middleware to verify the token with the secret key which we provided before logging out the user
     try {
         req.rootUser.tokens = req.rootUser.tokens.filter((curelem) => {  //filtering out user token from the array
             return curelem.token !== req.token
@@ -135,7 +148,7 @@ router.get("/logout", authenticate, async (req, res) => { //control goes to midd
 })
 
 
-module.exports = router;
+module.exports = {router,registerUser,login,validUser,logout};
 
 
 

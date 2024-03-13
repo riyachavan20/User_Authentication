@@ -5,10 +5,10 @@ const session = require("express-session");
 const app = express();
 const FRONTEND_URL=process.env.FRONTEND_URL
 require("../db/conn");
-const router = require("./routes/router");
+const {router,registerUser,login,validUser,logout} = require("./routes/router");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const port = 8001;
+const port = 8002;
 const path = require("path");  
 app.use(express.json());
 app.use(cookieParser());
@@ -21,7 +21,9 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 
-
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+// });
 // Add session middleware
 app.use(
   session({

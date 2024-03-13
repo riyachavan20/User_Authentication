@@ -9,12 +9,12 @@ import { Routes, Route, useNavigate } from "react-router-dom"
 import { useEffect, useContext, useState } from "react";
 import { LoginContext } from "./components/ContextProvider/Context";
 import Styles from "./components/styles.css"
-
+import DashError from "./components/DashError";
 function App() {
 
   const [data, setData] = useState(false); //to ensure that the home page is rendered after 2 seconds
 
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const DashboardValid = async () => {
     let token = localStorage.getItem("usersdatatoken");
@@ -30,9 +30,10 @@ function App() {
     const data = await res.json();
 
     if (data.status === 401 || !data) {
-      history("/");
-    } else {
-      history("/dash");
+      navigate("/");
+    } 
+    else {
+      navigate("/dash");
     }
   }
 
@@ -54,6 +55,7 @@ function App() {
             <Routes>
   <Route path="/" element={<Login />} />
   <Route path="/register" element={<Register />} />
+  <Route path="/dashError" element={<DashError />} />
 
   
     <Route path="/dash" element={<Dashboard />} />
